@@ -40,22 +40,24 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         self.navigationController?.navigationBar.isHidden = true
 		
         self.focusManager = FocusManager()
-		self.focusManager?.addItem(item: self.tfName)
-		self.focusManager?.addItem(item: self.tfSurName)
-		self.focusManager?.addItem(item: self.tfAddress)
-		self.focusManager?.addItem(item: self.tfPhone)
-		self.focusManager?.addItem(item: self.tfMobile)
-		self.focusManager?.addItem(item: self.tfEmail)
-		
-		self.focusManager?.addItem(item: self.tfWorkAddress)
-		self.focusManager?.addItem(item: self.tfWorkPhone)
-		self.focusManager?.addItem(item: self.tfWorkEmail)
-		
-		self.focusManager?.addItem(item: self.tfFavouriteFilm)
-		self.focusManager?.addItem(item: self.tfFavouriteBook)
-		self.focusManager?.addItem(item: self.tfFavouriteMusic)
-		
-		self.focusManager?.focus(index: 0)
+        if let focusManager = self.focusManager {
+            focusManager.addItem(item: self.tfName)
+            focusManager.addItem(item: self.tfSurName)
+            focusManager.addItem(item: self.tfAddress)
+            focusManager.addItem(item: self.tfPhone)
+            focusManager.addItem(item: self.tfMobile)
+            focusManager.addItem(item: self.tfEmail)
+            
+            focusManager.addItem(item: self.tfWorkAddress)
+            focusManager.addItem(item: self.tfWorkPhone)
+            focusManager.addItem(item: self.tfWorkEmail)
+            
+            focusManager.addItem(item: self.tfFavouriteFilm)
+            focusManager.addItem(item: self.tfFavouriteBook)
+            focusManager.addItem(item: self.tfFavouriteMusic)
+            
+            focusManager.focus(index: 0)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -97,7 +99,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         
         // 언더라인 선택 색상 적용
         if textField is UnderlineTextField {
-            focusManager?.focusTouch(item: textField)
+            focusManager!.focusTouch(item: textField)
         }
     }
     
@@ -113,11 +115,10 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
     }
     
     // 엔터키 눌렀을때 다음 컨트롤로 이동
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         //        textField.resignFirstResponder()
-        // 엔터키 눌렀을때 다음 컨트롤로 이동
-        if let focusManager = self.focusManager {
-            focusManager.focusNext()
+        if textField is UnderlineTextField {
+            focusManager!.focusNext()
         }
         
         return true
