@@ -112,6 +112,17 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    // 엔터키 눌렀을때 다음 컨트롤로 이동
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {   //delegate method
+        //        textField.resignFirstResponder()
+        // 엔터키 눌렀을때 다음 컨트롤로 이동
+        if let focusManager = self.focusManager {
+            focusManager.focusNext()
+        }
+        
+        return true
+    }
+    
     // MARK: - NotificationCenter
     // 인포커싱 되었을때 스크롤뷰 마진값 적용
     @objc func keyboardWillShow(_ notification: NSNotification) {
