@@ -82,6 +82,23 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         super.viewWillDisappear(animated)
     }
 
+    // iPhoneX인지 체크
+    var isIphoneX : Bool {
+        
+        get {
+            guard #available(iOS 11.0, *) else {
+                return false
+            }
+            
+            print(UIApplication.shared.windows[0].safeAreaInsets)
+            if(UIApplication.shared.windows[0].safeAreaInsets.bottom != 0.0) {
+                return true
+            }
+            
+            return false
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -131,7 +148,13 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
-            self.kbSizeHeight = keyboardRectangle.height
+            
+            // iPhoneX 스타일 경우 마진을 34만큼 더준다.
+            var gapOffsetY : CGFloat = 0.0
+            if self.isIphoneX == true {
+                gapOffsetY = 34.0
+            }
+            self.kbSizeHeight = keyboardRectangle.height - gapOffsetY
             
             // 스크롤바 키보드 높이 만큼 마진주기
             let contentInset: UIEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: self.kbSizeHeight, right: 0)
